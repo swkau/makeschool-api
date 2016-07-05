@@ -81,69 +81,80 @@ internal func exerciseTwo() {
     
     print("The top movie is \(topMovie.name) by \(topMovie.rightsOwner). It costs $\(topMovie.price) and was released on \(topMovie.releaseDate). You can view it on iTunes here: \(topMovie.link)")
 }
-
-internal func exerciseThree() {
-    // This would normally be network calls that return `NSData`. We'll show you how to do those soon!
-    // In this case, we are using a local JSON file.
-    guard let jsonURL = NSBundle.mainBundle().URLForResource("iTunes-Movies", withExtension: "json") else {
-        print("Could not find Random-User.json!")
-        return
-    }
-    let jsonData = NSData(contentsOfURL: jsonURL)!
-    
-    // Enter SwiftyJSON!
-    // moviesData now contains a JSON object representing all the data in the JSON file.
-    // This JSON file contains the same data as the tutorial example.
-    let moviesData = JSON(data: jsonData)
-    
-    // We've done you the favor of grabbing an array of JSON objects representing each movie
-    let allMoviesData = moviesData["feed"]["entry"].arrayValue
-    
-    /*
-     
-     Figure out a way to turn the allMoviesData array into Movie structs!
-     
-     */
-//    var allMovies: [Movie] = []
-//      var allMovies = Movie(json: allMoviesData)
     
     
-    
-    
-    
-    
-    /*
-     
-     Uncomment the below print statement and then print out the names of the two Disney
-     movies in allMovies. A movie is considered to be a "Disney movie" if `rightsOwner`
-     contains the `String` "Disney". Iterate over all the values in `allMovies` to check!
-     
-     */
-//    print("The following movies are Disney movies:")
-    
-    
-    
-    
-    /*
-     
-     Uncomment the below print statement and then print out the name and price of each
-     movie that costs less than $15. Iterate over all the values in `allMovies` to check!
-     
-     */
-//    print("The following movies are cost less than $15:")
-    
-    
-    
-    
-    /*
-     
-     Uncomment the below print statement and then print out the name and release date of
-     each movie released in 2016. Iterate over all the values in `allMovies` to check!
-     
-     */
-//    print("The following movies were released in 2016:")
-    
-    
-    
+    internal func exerciseThree() {
+        // This would normally be network calls that return `NSData`. We'll show you how to do those soon!
+        // In this case, we are using a local JSON file.
+        guard let jsonURL = NSBundle.mainBundle().URLForResource("iTunes-Movies", withExtension: "json") else {
+            print("Could not find Random-User.json!")
+            return
+        }
+        let jsonData = NSData(contentsOfURL: jsonURL)!
+        
+        // Enter SwiftyJSON!
+        // moviesData now contains a JSON object representing all the data in the JSON file.
+        // This JSON file contains the same data as the tutorial example.
+        let moviesData = JSON(data: jsonData)
+        
+        // We've done you the favor of grabbing an array of JSON objects representing each movie
+        let allMoviesData = moviesData["feed"]["entry"].arrayValue
+        
+        /*
+         
+         Figure out a way to turn the allMoviesData array into Movie structs!
+         
+         */
+        var allMovies: [Movie] = []
+        
+        for movie in allMoviesData {
+            allMovies.append(Movie(json: movie))
+        }
+        
+        /*
+         
+         Uncomment the below print statement and then print out the titles of the two Disney
+         moves in allMovies. A movie is considered to be a "Disney movie" if `rightsOwner`
+         contains the `String` "Disney". Iterate over all the values in `allMovies` to check!
+         
+         */
+        print("The following movies are Disney movies...")
+        
+        for movie in allMovies {
+            if (movie.rightsOwner.containsString("Disney") ) {
+                print(movie.name)
+            }
+        }
+        
+        
+        /*
+         
+         Uncomment the below print statement and then print out the titles and prices of each
+         movie that costs less than $15. Iterate over all the values in `allMovies` to check!
+         
+         */
+        print("The following movies are cost less than $15...")
+        
+        for movie in allMovies {
+            if (movie.price < 15) {
+                print("\(movie.name) costs \(movie.price)")
+            }
+        }
+        
+        
+        
+        /*
+         
+         Uncomment the below print statement and then print out the titles and release date of
+         each movie released in 2016. Iterate over all the values in `allMovies` to check!
+         
+         */
+        print("The following movies were released in 2016...")
+        
+        for movie in allMovies {
+            if (movie.releaseDate.containsString("2016")) {
+                print("\(movie.name) was released on \(movie.releaseDate)")
+            }
+        }
     
 }
